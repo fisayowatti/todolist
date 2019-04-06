@@ -141,7 +141,7 @@ class Listicles extends Component {
                                     handleTick={this.handleListTick}
                                     handleChange={this.handleListEditChange}
                                 />
-                        ))
+                            ))
                     }
                     {
                         list.filter(item => item.done)
@@ -152,7 +152,7 @@ class Listicles extends Component {
                                     handleTick={this.handleListTick}
                                     handleChange={this.handleListEditChange}
                                 />
-                        ))
+                            ))
                     }
                 </main>
             </div>
