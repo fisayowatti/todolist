@@ -28,12 +28,22 @@ const mainInputStyle = {
 class Listicles extends Component {
     state = {
         list: [],
-        value: "",
-        latestId: 0
+        value: ""
     }
 
-    componentDidUpdate(){
-        console.log(this.state)
+    componentDidMount(){
+        console.log("list", this.state.list)
+        fetch('/api/todolist')
+            .then(res => res.json())
+            .then(data => {
+                this.setState({ 
+                    list: data, 
+                    latestId: data.length > 0 ? data.map(d => d.id).reduce((acc, curr) => Math.max(acc, curr)) : 0
+                })
+            })
+            .catch(err => {
+                console.log(err)
+            })            
     }
 
     handleListCreate = (e) => {
@@ -42,7 +52,7 @@ class Listicles extends Component {
             list: [
                 ...prevState.list,
                 {
-                    id: prevState.latestId,
+                    id: prevState.latestId + 1,
                     text: prevState.value,
                     done: false,
                     editing: false
@@ -132,7 +142,7 @@ class Listicles extends Component {
                     
                 </header>
                 <main style={mainStyle}>
-                    {
+                    { 
                         list.filter(item => !item.done)
                             .map(item => (
                                 <ListItem key={item.id} listItem={item} 
@@ -143,7 +153,7 @@ class Listicles extends Component {
                                 />
                         ))
                     }
-                    {
+                    { 
                         list.filter(item => item.done)
                             .map(item => (
                                 <ListItem key={item.id} listItem={item} 

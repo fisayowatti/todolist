@@ -2909,7 +2909,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _jsxFileName = "C:\\Users\\Fisayo\\Desktop\\next-todo\\pages\\index.js";
 
 
 var containerStyle = {
@@ -2952,8 +2951,7 @@ function (_Component) {
 
     Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_8__["default"])(Object(_babel_runtime_corejs2_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6__["default"])(_this), "state", {
       list: [],
-      value: "",
-      latestId: 0
+      value: ""
     });
 
     Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_8__["default"])(Object(_babel_runtime_corejs2_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6__["default"])(_this), "handleListCreate", function (e) {
@@ -2962,7 +2960,7 @@ function (_Component) {
       _this.setState(function (prevState) {
         return {
           list: [].concat(Object(_babel_runtime_corejs2_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__["default"])(prevState.list), [{
-            id: prevState.latestId,
+            id: prevState.latestId + 1,
             text: prevState.value,
             done: false,
             editing: false
@@ -3042,89 +3040,63 @@ function (_Component) {
   }
 
   Object(_babel_runtime_corejs2_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_3__["default"])(Listicles, [{
-    key: "componentDidUpdate",
-    value: function componentDidUpdate() {
-      console.log(this.state);
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      console.log("list", this.state.list);
+      fetch('/api/todolist').then(function (res) {
+        return res.json();
+      }).then(function (data) {
+        _this2.setState({
+          list: data,
+          latestId: data.length > 0 ? data.map(function (d) {
+            return d.id;
+          }).reduce(function (acc, curr) {
+            return Math.max(acc, curr);
+          }) : 0
+        });
+      }).catch(function (err) {
+        console.log(err);
+      });
     }
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       var _this$state = this.state,
           list = _this$state.list,
           value = _this$state.value;
       return react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("div", {
-        style: containerStyle,
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 116
-        },
-        __self: this
+        style: containerStyle
       }, react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("header", {
-        style: headerStyle,
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 117
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("h1", {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 118
-        },
-        __self: this
-      }, "Listicles"), react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("form", {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 119
-        },
-        __self: this
-      }, react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("input", {
+        style: headerStyle
+      }, react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("h1", null, "Listicles"), react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("form", null, react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("input", {
         placeholder: "Enter a new todo here",
         onChange: this.handleListCreateChange,
         value: value,
-        style: mainInputStyle,
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 120
-        },
-        __self: this
+        style: mainInputStyle
       }), react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("input", {
         type: "submit",
         value: "ENTER",
         onClick: function onClick(e) {
-          return _this2.handleListCreate(e);
+          return _this3.handleListCreate(e);
         },
         disabled: !value,
-        style: mainInputStyle,
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 126
-        },
-        __self: this
+        style: mainInputStyle
       }))), react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement("main", {
-        style: mainStyle,
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 134
-        },
-        __self: this
+        style: mainStyle
       }, list.filter(function (item) {
         return !item.done;
       }).map(function (item) {
         return react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(_components_ListItem__WEBPACK_IMPORTED_MODULE_10__["default"], {
           key: item.id,
           listItem: item,
-          handleEditClick: _this2.handleListEditClick,
-          handleDelete: _this2.handleListDelete,
-          handleTick: _this2.handleListTick,
-          handleChange: _this2.handleListEditChange,
-          __source: {
-            fileName: _jsxFileName,
-            lineNumber: 138
-          },
-          __self: this
+          handleEditClick: _this3.handleListEditClick,
+          handleDelete: _this3.handleListDelete,
+          handleTick: _this3.handleListTick,
+          handleChange: _this3.handleListEditChange
         });
       }), list.filter(function (item) {
         return item.done;
@@ -3132,15 +3104,10 @@ function (_Component) {
         return react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(_components_ListItem__WEBPACK_IMPORTED_MODULE_10__["default"], {
           key: item.id,
           listItem: item,
-          handleEditClick: _this2.handleListEditClick,
-          handleDelete: _this2.handleListDelete,
-          handleTick: _this2.handleListTick,
-          handleChange: _this2.handleListEditChange,
-          __source: {
-            fileName: _jsxFileName,
-            lineNumber: 149
-          },
-          __self: this
+          handleEditClick: _this3.handleListEditClick,
+          handleDelete: _this3.handleListDelete,
+          handleTick: _this3.handleListTick,
+          handleChange: _this3.handleListEditChange
         });
       })));
     }
